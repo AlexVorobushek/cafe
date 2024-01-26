@@ -13,7 +13,9 @@ import java.util.List;
 public class VisitService {
     private final VisitRepository visitRepository;
     private final ClientService clientService;
-    public Visit create(VisitDTO dto){
+
+
+    public Visit create(VisitDTO dto) throws IllegalArgumentException{
         Visit visit = Visit.builder()
                 .datetime(dto.getDatetime())
                 .client(clientService.readById(dto.getClientId()))
@@ -33,4 +35,8 @@ public class VisitService {
         return visitRepository.findByClientId(clientId);
     }
 
+    public void checkExistById(Long id) throws IllegalArgumentException{
+        if (!visitRepository.existsById(id))
+            throw new IllegalArgumentException("Client "+id+" not exist.");
+    }
 }

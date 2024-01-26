@@ -35,7 +35,11 @@ public class ClientService {
     }
 
     public Client readById(Long id){
-        return clientRepository.findById(id).orElseThrow(()->
-                new RuntimeException("there are no client with "+id+" id"));
+        return clientRepository.findById(id).orElse(null);
+    }
+
+    public void checkExistById(Long id) throws IllegalArgumentException{
+        if (!clientRepository.existsById(id))
+            throw new IllegalArgumentException("Client "+id+" not exist.");
     }
 }

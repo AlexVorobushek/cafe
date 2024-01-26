@@ -18,21 +18,35 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<Client> create(@RequestBody ClientDTO dto){
+        dto.checkIsValid();
+
         return new ResponseEntity<>(clientService.create(dto), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<Client> update(@RequestBody Client client){
+        client.checkIsValid();
+        clientService.checkExistById(client.getId());
+
         return new ResponseEntity<>(clientService.update(client), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        clientService.checkExistById(id);
+
         clientService.delete(id);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<Client>> readAll(){
         return new ResponseEntity<>(clientService.readAll(), HttpStatus.OK);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handException(IllegalArgumentException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }
