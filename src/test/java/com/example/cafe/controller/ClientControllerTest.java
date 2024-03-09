@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(properties = {"spring.datasource.url=jdbc:postgresql://localhost:5432/cafe_test"})
 @SpringBootTest
 @TestPropertySource("/test.properties")
 @AutoConfigureMockMvc
